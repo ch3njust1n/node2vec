@@ -17,13 +17,60 @@ python -m pip install --upgrade git+https://github.com/ch3njust1n/node2vec
 
 ### Basic Usage
 
-#### Example
-To run *node2vec* on Zachary's karate club network, execute the following command from the project home directory:<br/>
-	``python src/main.py --input graph/karate.edgelist --output emb/karate.emd``
+```
+from node2vec import Graph
 
-#### Options
-You can check out the other options available to use with *node2vec* using:<br/>
-	``python src/main.py --help``
+
+import argparse
+import numpy as np
+import networkx as nx
+import node2vec
+from gensim.models import Word2Vec
+
+
+def parse_args():
+	parser = argparse.ArgumentParser(description="Run node2vec.")
+
+	...
+
+	return parser.parse_args()
+
+
+def read_graph():
+	'''
+	Reads the input network in networkx.
+	'''
+	...
+
+	return G
+
+
+def learn_embeddings(walks):
+	'''
+	Learn embeddings by optimizing the Skipgram objective using SGD.
+	'''
+	walks = [str(walk) for walk in walks]
+	model = Word2Vec(walks, size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
+	model.wv.save_word2vec_format(args.output)
+	
+	return
+
+
+def main(args):
+	'''
+	Pipeline for representational learning for all nodes in a graph.
+	'''
+	nx_G = read_graph()
+	G = node2vec.Graph(nx_G, args.directed, args.p, args.q)
+	G.preprocess_transition_probs()
+	walks = G.simulate_walks(args.num_walks, args.walk_length)
+	learn_embeddings(walks)
+
+
+if __name__ == "__main__":
+	args = parse_args()
+	main(args)
+```
 
 #### Input
 The supported input format is an edgelist:
