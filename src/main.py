@@ -8,7 +8,7 @@ node2vec: Scalable Feature Learning for Networks
 Aditya Grover and Jure Leskovec 
 Knowledge Discovery and Data Mining (KDD), 2016
 '''
-
+import sys
 import argparse
 import numpy as np
 import networkx as nx
@@ -49,7 +49,7 @@ def parse_args():
 	                    help='Return hyperparameter. Default is 1.')
 
 	parser.add_argument('--q', type=float, default=1,
-	                    help='Inout hyperparameter. Default is 1.')
+	                    help='Input hyperparameter. Default is 1.')
 
 	parser.add_argument('--weighted', dest='weighted', action='store_true',
 	                    help='Boolean specifying (un)weighted. Default is unweighted.')
@@ -83,9 +83,9 @@ def learn_embeddings(walks):
 	'''
 	Learn embeddings by optimizing the Skipgram objective using SGD.
 	'''
-	walks = [map(str, walk) for walk in walks]
+	walks = [str(walk) for walk in walks]
 	model = Word2Vec(walks, size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
-	model.save_word2vec_format(args.output)
+	model.wv.save_word2vec_format(args.output)
 	
 	return
 
