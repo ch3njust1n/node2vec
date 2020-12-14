@@ -18,9 +18,6 @@ python -m pip install --upgrade git+https://github.com/ch3njust1n/node2vec
 ### Basic Usage
 
 ```
-from node2vec import Graph
-
-
 import argparse
 import numpy as np
 import networkx as nx
