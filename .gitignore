@@ -12,3 +12,6 @@ build
 .project
 .settings
 .idea
+main.py
+graph/
+emb/
